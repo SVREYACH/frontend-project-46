@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { readFileSync } from 'fs';
 import path from 'path';
+import { readFileSync } from 'fs';
+import genDiff from '../src/genDiff.js';
 
 const program = new Command();
 
-const parseFile = (filepath) => {
-  const absolutePath = path.resolve(process.cwd(), filepath);
-  const fileContent = readFileSync(absolutePath, 'utf-8');
+const getFileData = (filepath) => {
+  const fullPath = path.resolve(process.cwd(), filepath);
+  const fileContent = readFileSync(fullPath, 'utf-8');
   return JSON.parse(fileContent);
 };
 
@@ -19,12 +20,11 @@ program
   .arguments('<filepath1> <filepath2>')
   .option('-f, --format [type]', 'output format', 'default')
   .action((filepath1, filepath2) => {
-    const data1 = parseFile(filepath1);
-    const data2 = parseFile(filepath2);
+    const data1 = getFileData(filepath1);
+    const data2 = getFileData(filepath2);
 
-    console.log(`Comparing files: ${filepath1} and ${filepath2}`);
-    console.log(`Using format: ${program.opts().format}`);
-    console.log('Parsed file 1:', data1);
-    console.log('Parsed file 2:', data2);
-  })
-  .parse(process.argv);
+    const diff = genDiff(data1, data2);
+    console.log(diff);
+  });
+
+program.parse(process.argv);
