@@ -5,3 +5,6 @@
 
 ### Демонстрация gendiff
 https://asciinema.org/a/VMaXaG6EHTnYmsVBCYDSVXaHT
+
+### Демонстрация gendiff c файлами yml
+https://asciinema.org/a/nMieO6G6WANzv12f0anxPKL9A
