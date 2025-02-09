@@ -1,15 +1,9 @@
-import fs from 'fs';
-import path from 'path';
+import yaml from 'js-yaml';
 
-/**
- * Reads and parses a JSON file.
- * @param {string} filepath - Path to the file.
- * @returns {Object} - Parsed data.
- */
-const parseFile = (filepath) => {
-  const absolutePath = path.resolve(filepath); // Преобразуем путь в абсолютный
-  const fileContent = fs.readFileSync(absolutePath, 'utf-8'); // Считываем содержимое файла
-  return JSON.parse(fileContent); // Парсим JSON
+const parse = (data, ext) => {
+  if (ext === 'json') return JSON.parse(data);
+  if (ext === 'yml' || ext === 'yaml') return yaml.load(data);
+  throw new Error(`Unsupported format: ${ext}`);
 };
 
-export default parseFile;
+export default parse;
